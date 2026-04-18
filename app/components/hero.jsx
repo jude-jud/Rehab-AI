@@ -45,10 +45,10 @@ const Hero = () => {
             willChange: "transform, opacity",
           }}
         >
-          <h1 className="w-full">Rehab Ai, Feel calmer in minutes.</h1>
+          <h1 className="w-full">Rehab Ai, Feel stronger in minutes.</h1>
           <p className="w-full">
-            Talk it out, get grounded, and leave with a clear next step. Rehab
-            Ai helps when life feels heavy.
+            Talk it out, get a recovery plan, and leave with a clear next step. Rehab
+            Ai helps when you get injured.
           </p>
         </div>
       </div>
