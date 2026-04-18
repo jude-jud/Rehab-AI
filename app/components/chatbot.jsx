@@ -350,18 +350,19 @@ export default function Chatbot() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   // playlists: [{ id, name, videos: [{ id, src, label }] }]
-  const [playlists, setPlaylists] = useState([]);
-  const [activePlaylistId, setActivePlaylistId] = useState(null);
-
-  // Load from localStorage once on mount
-  useEffect(() => {
+  // Initialise directly from localStorage — avoids a race where the save effect
+  // fires with [] before the load effect can restore the real data.
+  const [playlists, setPlaylists] = useState(() => loadPlaylists());
+  const [activePlaylistId, setActivePlaylistId] = useState(() => {
     const saved = loadPlaylists();
-    setPlaylists(saved);
-    if (saved.length > 0) setActivePlaylistId(saved[0].id);
-  }, []);
+    return saved.length > 0 ? saved[0].id : null;
+  });
 
-  // Persist whenever playlists change
+  // Skip the very first render so we never overwrite localStorage with stale state,
+  // then persist on every subsequent change.
+  const isFirstRender = useRef(true);
   useEffect(() => {
+    if (isFirstRender.current) { isFirstRender.current = false; return; }
     savePlaylists(playlists);
   }, [playlists]);
 
